@@ -10,20 +10,18 @@ Feature: Automatic database discovery
 
   @dev
   Scenario: I want non-empty collections to automatically populate
+    When I view my admin panel
     Then I should have access to my collections
 
-  @dev
   Scenario: I want to manually add empty collections
     Given I am a developer
     And some of my collections were not discovered
     When I add an empty collection
     Then the admin should have access to my the collection I just added
 
-  @dev
   Scenario: I don't want to see users and houston_admin by default
     Then I should not see users or houston_admin
 
-  @dev
   Scenario: I want to see users and houston_admin
     Given I am a developer
     When I add users and houston_admin

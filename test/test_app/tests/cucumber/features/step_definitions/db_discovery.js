@@ -3,16 +3,19 @@
 module.exports = function () {
   this.Given(/^I am an admin$/, function (callback) {
     // First: reset accounts
-    this.server.call('test/reset');
+    server.call('test/reset')
 
     // Second: create an account
-    var id = this.server.call('test/createUser', "bob@email.com", "password");
-
+    var id = server.call('test/createUser', "bob@email.com", "password");
+    console.log(id);
     // Third: give user admin status
-    this.server.call('_houston_make_admin', id)
-
+    // server.call('_houston_make_admin', id)
+    client.pause(3000)
     // Fourth: login
-
+    client.url(process.env.ROOT_URL + 'admin');
+    client.executeAsync(function(done) {
+      Meteor.loginWithPassword('bob', 'password', done)
+    })
 
 
     // client.url(process.env.ROOT_URL + 'admin');
@@ -29,15 +32,16 @@ module.exports = function () {
     //   Meteor.loginWithPassword('bob', 'password', done)
     // })
 
-    // callback()
-  });
+    callback()
+    });
 
   this.Given(/^I have more than one collection$/, function (callback) {
     // Count the number of items in our global collection
-    var collectionCount = this.server.call('test/findACollection')
+    // var collectionCount = this.server.call('test/findACollection')
 
     // Check to make sure it has at least 1 item
-    expect(collectionCount).to.be.at.least(1);
+    // expect(collectionCount).to.be.at.least(1);
+    callback.pending()
   });
 
   this.Then(/^I should have access to my collections$/, function (callback) {
@@ -48,6 +52,11 @@ module.exports = function () {
     // When the user clicks on the collection in the sidebar, he should see the documents in the table
 
 
+    callback.pending();
+  });
+
+  this.When(/^I view my admin panel$/, function (callback) {
+    // Write code here that turns the phrase above into concrete actions
     callback.pending();
   });
 

@@ -5,7 +5,7 @@
   Meteor.methods({
     'test/reset' : function() {
       Houston._admins.remove({})
-      return Meteor.users.remove({})
+      Meteor.users.remove({})
 
     },
     'test/createUser': function(email, password) {
